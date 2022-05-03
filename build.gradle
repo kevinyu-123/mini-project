@@ -35,7 +35,6 @@ subprojects {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         implementation 'org.springframework.boot:spring-boot-starter-mail'
-        implementation 'org.springframework.boot:spring-boot-starter-security'
         implementation 'org.springframework.boot:spring-boot-starter-web'
         compileOnly 'org.projectlombok:lombok'
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -43,9 +42,10 @@ subprojects {
         annotationProcessor 'org.projectlombok:lombok'
         providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
-        testImplementation 'org.springframework.security:spring-security-test'
         implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
         implementation 'javax.servlet:jstl'
+        implementation 'javax.mail:javax.mail-api:1.6.2'
+
     }
 
     tasks.named('test') {
