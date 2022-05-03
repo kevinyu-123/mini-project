@@ -1,15 +1,31 @@
 package com.travel.proj.controller.Api;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.travel.proj.dto.ResponseDto;
+import com.travel.proj.model.User;
+import com.travel.proj.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/user")
 public class UserApiController {
 
-    @GetMapping("/test")
-    public String test(){
-        return "test";
+    private final UserService service;
+
+    public UserApiController(UserService service){
+        this.service = service;
     }
+
+    @PostMapping("")
+    public ResponseDto<Integer> register(@RequestBody User user){
+        service.register(user);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+    }
+
+    @PostMapping("/login")
+    public void login(){
+
+    }
+
 }

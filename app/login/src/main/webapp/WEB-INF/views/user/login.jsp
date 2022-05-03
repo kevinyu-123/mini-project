@@ -6,6 +6,7 @@
 </head>
 <body>
     <div>
+        <form action="/api/login" method="post">
         <div>
             <label for="email">Email address:</label>
             <input type="email" placeholder="Enter email" id="email">
@@ -14,7 +15,9 @@
             <label for="password">Password:</label>
             <input type="password"  placeholder="Enter password" id="password">
         </div>
-        <button id="btn-login">로그인</button>
+        <input type="submit" value="로그인">
+        </form>
     </div>
+
 </body>
 </html>

@@ -17,9 +17,9 @@ public class UserController {
         return "user/login";
     }
 
-    @GetMapping("/index")
+    @GetMapping("/main")
     public String index(){
-        return "index";
+        return "user/test";
     }
 
 }
