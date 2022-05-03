@@ -16,6 +16,7 @@
             <br>
             <button onclick="location.href='register'">회원가입</button>
         </:c:otherwise>
+
     </c:choose>
 </body>
 </html>
