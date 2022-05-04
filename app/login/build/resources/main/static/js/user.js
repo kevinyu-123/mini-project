@@ -3,7 +3,9 @@ let user_func = {
         $("#btn-save").on("click",()=>{
             this.save();
         });
-
+        $("#btn-check-email").on("click",()=>{
+            this.check_email();
+        })
     },
 
     save:function (){
@@ -26,8 +28,26 @@ let user_func = {
     },
 
 
+    check_email:function(){
+        let email = $("#email").val();
 
+        $.ajax({
+            type: "post",
+            url: "/user/check/"+email,
+            dataType : "json",
+            contentType : "application/json; charset=utf-8",
+        }).done (function (response){
+            console.log(response);
+            if(response.status == 200){
+                $("#val").text("회원가입 불가능");
+            }else{
+                $("#val").text("회원가입 가능");
+            }
 
+        }).fail (function(error){
+            alert(JSON.stringify(error));
 
+        })
+    }
 }
 user_func.init();

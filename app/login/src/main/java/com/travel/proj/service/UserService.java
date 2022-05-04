@@ -5,7 +5,7 @@ import com.travel.proj.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
+import java.util.Optional;
 
 
 @Service
@@ -19,7 +19,17 @@ public class UserService {
 
     @Transactional
     public void register(User user){
-        userRepository.save(user);
+         userRepository.save(user);
     }
 
-}
+    @Transactional
+    public User checkEmail(String email){
+        return userRepository.findByEmail(email).orElseThrow(()->{
+           return new IllegalArgumentException("회원가입 가능");
+        });
+
+        }
+    }
+
+
+

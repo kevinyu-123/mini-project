@@ -15,7 +15,7 @@
                 <label for="email">Email address:</label>
                 <input type="email"  placeholder="Enter email" id="email">
                 <button id="btn-check-email">이메일 중복 확인</button>
-                <label id="check-email"></label>
+                <label id="val"></label>
             </div>
             <div >
                 <label for="password">Password:</label>

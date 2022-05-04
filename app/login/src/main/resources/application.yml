@@ -30,3 +30,6 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
+email:
+  id: joontiger@gmail.com
+  pwd: tntor123
