@@ -7,6 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequestMapping("/user")
@@ -30,9 +34,21 @@ public class UserApiController {
         return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
 
     }
-    @PostMapping("/login")
-    public void login(){
 
+    @PostMapping("/email")
+    public boolean sendMail(@RequestBody Map<String, String> info, HttpServletRequest request){
+        boolean result = service.sendMail(info,request);
+        return result;
+    }
+
+    @PostMapping("/login")
+    public ResponseDto<Integer> login(@RequestBody User user, HttpSession session){
+       User info =  service.login(user);
+       log.info(String.valueOf(info));
+       if(info != null){
+           session.setAttribute("userInfo",info);
+       }
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
 }

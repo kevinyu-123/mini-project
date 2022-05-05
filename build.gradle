@@ -45,6 +45,7 @@ subprojects {
         implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
         implementation 'javax.servlet:jstl'
         implementation 'javax.mail:javax.mail-api:1.6.2'
+        implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
 
     }
 

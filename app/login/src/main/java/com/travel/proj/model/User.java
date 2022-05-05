@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
+import net.bytebuddy.implementation.bind.annotation.Default;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -16,7 +16,6 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@DynamicInsert
 @Data
 public class User {
 
@@ -30,10 +29,13 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @CreationTimestamp
     private Timestamp loginTime;
 
-    @CreationTimestamp
     private Timestamp logoutTime;
+
+    private String auth;
+
+    @Column(nullable = false)
+    private String nickname;
 }
 

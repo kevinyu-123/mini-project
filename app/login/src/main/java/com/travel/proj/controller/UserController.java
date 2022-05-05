@@ -1,11 +1,20 @@
 package com.travel.proj.controller;
 
+import com.travel.proj.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
+    private final UserService service;
+
+    public UserController(UserService service){
+        this.service = service;
+    }
 
     @GetMapping("/register")
     public String register(){
@@ -19,7 +28,16 @@ public class UserController {
 
     @GetMapping("/main")
     public String index(){
-        return "user/test";
+        return "index";
     }
 
+    @GetMapping("/email-auth")
+    public String emailConfirm(@RequestParam String authToken, HttpSession session){
+       int result = service.checkAuthCode(authToken,session);
+        if(result == 1){
+            return "success";
+        }else {
+            return "error";
+        }
+    }
 }

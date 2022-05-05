@@ -12,11 +12,11 @@ import java.util.Properties;
 @Configuration
 public class EmailConfig {
 
-    @Value("${email.id}")
-    private static String username;
+   // @Value("${email.id}")
+    private static String username = "dininglab.korea@gmail.com";
 
-    @Value("${email.pwd}")
-    private static String password;
+  //  @Value("${email.pwd}")
+    private static String password ="dbguswns123";
 
     @Bean
     public static JavaMailSender mailSender() {

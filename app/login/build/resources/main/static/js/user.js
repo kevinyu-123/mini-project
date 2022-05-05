@@ -5,13 +5,20 @@ let user_func = {
         });
         $("#btn-check-email").on("click",()=>{
             this.check_email();
-        })
+        });
+        $("#btn-email-auth").on("click",()=> {
+            this.email_auth();
+        });
+        $("#btn-login").on("click",()=>{
+            this.login();
+        });
     },
 
     save:function (){
         let data = {
             email: $("#email").val(),
-            password: $("#password").val()
+            password: $("#password").val(),
+            nickname: $("#nickname").val()
         }
         $.ajax({
             type: "post",
@@ -38,16 +45,58 @@ let user_func = {
             contentType : "application/json; charset=utf-8",
         }).done (function (response){
             console.log(response);
-            if(response.status == 200){
-                $("#val").text("회원가입 불가능");
+            if(response.status == 500){
+                $(".chk").html("회원가입 가능");
             }else{
-                $("#val").text("회원가입 가능");
+                $(".chk").html("회원가입 불가능");
             }
-
         }).fail (function(error){
             alert(JSON.stringify(error));
 
+        });
+    },
+
+    email_auth:function (){
+        let data = {
+            email: $("#email").val(),
+            nickname: $("#nickname").val()
+        }
+        $.ajax({
+            type: "post",
+            url: "/user/email",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+        }).done(function(msg){
+            if(msg == true) {
+                alert("이메일을 확인해 주세요");
+            }else{
+                alert("이메일 전송 실패");
+            }
+        }).fail(function (error){
+            alert("실패");
         })
-    }
+    },
+    login:function (){
+        let data = {
+            email: $("#email").val(),
+            password: $("#password").val()
+        }
+        $.ajax({
+            type: "post",
+            url: "/user/login",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+        }). done(function (response){
+            console.log(response)
+            alert("로그인 성공");
+            location.href="/main";
+        }). fail (function (error){
+            location.href="/login";
+            alert("로그인 실패");
+        });
+    },
+
 }
 user_func.init();
