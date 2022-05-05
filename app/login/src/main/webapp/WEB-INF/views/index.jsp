@@ -15,11 +15,11 @@
             <br>
             <button onclick="location.href='register'">회원가입</button>
         </c:when>
-        <:c:otherwise>
+        <c:otherwise>
             <label>로그인 성공</label>
             <label>환영합니다.</label>
             <button id="btn-logout">로그아웃</button>
-        </:c:otherwise>
+        </c:otherwise>
     </c:choose>
     <script src="/js/user.js"></script>
 </body>
