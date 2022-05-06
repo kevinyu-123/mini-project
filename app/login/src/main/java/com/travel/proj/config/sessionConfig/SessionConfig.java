@@ -5,7 +5,6 @@ import com.travel.proj.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
@@ -24,29 +23,26 @@ public class SessionConfig implements HttpSessionListener {
 
     private static final Map<String, HttpSession> sessions = new ConcurrentHashMap<>();
 
-    public synchronized static String getSessionidCheck(String type, String compareEmail){
+    //해당 메소드는 로그인 하는 곳에서 호출하는 메소드 이다.
+    public synchronized static String loginSessionChecker(String compareId){
         String result = "";
         for( String key : sessions.keySet() ){
-            HttpSession hs = sessions.get(key);
-            User user = new User();
-            if(hs != null) {
-                user = (User) hs.getAttribute(type);
-                if(user != null && user.getEmail().toString().equals(compareEmail)) {
-                    result = key.toString();
-                }
+            HttpSession value = sessions.get(key);
+            log.info((String) value.getAttribute("userInfo"));
+            if(value != null &&  value.getAttribute("userInfo") != null && value.getAttribute("userInfo").toString().equals(compareId) ){
+                result =  key.toString();
             }
         }
         removeSessionForDoubleLogin(result);
-        System.out.println(result+"2");
         return result;
     }
 
-    private static void removeSessionForDoubleLogin(String userEmail){
-        System.out.println("remove userEmail 1: " + userEmail);
-        if(userEmail != null && userEmail.length() > 0){
-            sessions.get(userEmail).invalidate();
-            sessions.remove(userEmail);
+    private static boolean removeSessionForDoubleLogin(String userId){
+        if(userId != null && userId.length() > 0){
+            sessions.get(userId).invalidate();
+            sessions.remove(userId);
         }
+        return true;
     }
 
     public void sessionCreated(HttpSessionEvent se) {
@@ -54,7 +50,6 @@ public class SessionConfig implements HttpSessionListener {
         sessions.put(se.getSession().getId(),se.getSession());
     }
 
-    @Transactional
     public void sessionDestroyed(HttpSessionEvent se) {
         if(sessions.get(se.getSession().getId()) != null){
             sessions.get(se.getSession().getId()).invalidate();

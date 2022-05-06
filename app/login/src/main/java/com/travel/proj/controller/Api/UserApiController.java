@@ -50,11 +50,9 @@ public class UserApiController {
     @Transactional
     @PostMapping("/login")
     public ResponseDto<Integer> login(@RequestBody User user, HttpSession session){
-        String userEmail = user.getEmail();
        User info =  service.login(user);
        if(info != null){
-           userEmail = SessionConfig.getSessionidCheck("userInfo", user.getEmail());
-
+          String email = SessionConfig.loginSessionChecker(user.getEmail());
            session.setAttribute("userInfo",info);
 
            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
