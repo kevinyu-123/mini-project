@@ -47,8 +47,10 @@ let user_func = {
             console.log(response);
             if(response.status == 500){
                 $(".chk").html("회원가입 가능");
+                $("#btn-email-auth").prop("disabled",false);
             }else{
                 $(".chk").html("회원가입 불가능");
+                $("#btn-email-auth").prop("disabled",true);
             }
         }).fail (function(error){
             alert(JSON.stringify(error));
@@ -74,7 +76,7 @@ let user_func = {
                 alert("이메일 전송 실패");
             }
         }).fail(function (error){
-            alert("실패");
+            alert(JSON.stringify(error));
         })
     },
     login:function (){
@@ -89,12 +91,16 @@ let user_func = {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
         }). done(function (response){
-            console.log(response)
-            alert("로그인 성공");
-            location.href="/main";
+            if(response.status == 200) {
+                alert("로그인 성공");
+                location.href="/main";
+            }else{
+                alert("로그인 실패");
+                location.href="/main";
+            }
         }). fail (function (error){
             location.href="/login";
-            alert("로그인 실패");
+            alert(JSON.stringify(error));
         });
     },
 

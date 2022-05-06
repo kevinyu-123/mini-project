@@ -46,6 +46,7 @@ subprojects {
         implementation 'javax.servlet:jstl'
         implementation 'javax.mail:javax.mail-api:1.6.2'
         implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
+        implementation 'org.springframework.session:spring-session-core'
 
     }
 

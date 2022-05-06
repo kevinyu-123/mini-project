@@ -26,11 +26,11 @@
                 <button id="btn-check-email" type="button">이메일 중복 확인</button>
                 <span class="chk"></span>
                 <br>
-                <button id="btn-email-auth" type="button">이메일 인증</button>
+                <button id="btn-email-auth" type="button" disabled>이메일 인증</button>
             </div>
 
         </form>
-        <button id="btn-save" class="btn btn-primary" disabled>회원가입</button>
+        <button id="btn-save" class="btn btn-primary">회원가입</button>
     </div>
 
     <br/>

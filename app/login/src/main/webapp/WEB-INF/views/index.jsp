@@ -17,8 +17,8 @@
         </c:when>
         <c:otherwise>
             <label>로그인 성공</label>
-            <label>환영합니다.</label>
-            <button id="btn-logout">로그아웃</button>
+            <label>${userInfo.nickname}님 환영합니다.</label>
+            <button id="btn-logout" onclick="location.href='/logout?email=${userInfo.email}'">로그아웃</button>
         </c:otherwise>
     </c:choose>
     <script src="/js/user.js"></script>

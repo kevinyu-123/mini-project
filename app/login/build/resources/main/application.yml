@@ -2,6 +2,9 @@ server:
   port: 8080
   servlet:
     context-path: /
+    session:
+      timeout: 30
+
 
 
 spring:
@@ -22,7 +25,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       use-new-id-generator-mappings: false
-    show-sql: true
+    show-sql: false
     properties:
       hibernate.format_sql: true
 
@@ -30,6 +33,3 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
-email:
-  id: dininglab.korea@gmail.com
-  pwd: dbguswns123

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
+import java.sql.Timestamp;
 import java.util.Map;
 import java.util.Random;
 
@@ -35,8 +36,6 @@ public class UserService {
 
     @Transactional
     public void register(User user){
-//      Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//      user.setLoginTime(timestamp);
         user.setAuth("true");
         userRepository.save(user);
     }
@@ -55,7 +54,7 @@ public class UserService {
         HttpSession session = request.getSession();
         String userKey = rand();
         session.setAttribute("emailChk", userKey);
-        String body = "<h3>" + name + "님</h3>" + "<p>다음 url을 통하여 인증해주세요  <b>" + "http://localhost:8080/email-auth?authToken="+userKey
+        String body = "<h3>" + name + "님</h3>" + "<p>다음 url을 통하여 인증해주세요  <b>" + "http://localhost:8080/email-auth?authValue="+userKey
                 + "</b>   감사합니다.</p>";
         result = sendEmail(email, "이메일인증입니다.", body);
         if (result == 1) {
@@ -83,7 +82,7 @@ public class UserService {
         return result;
     }
 
-    //이메일인증에 들어갈 값 생성
+    //authCode에 들어갈 값 생성
     private String rand() {
         Random ran = new Random();
         String str = "";
@@ -99,10 +98,10 @@ public class UserService {
         return str;
     }
 
-    public int checkAuthCode(String authToken, HttpSession session) {
+    public int checkAuthCode(String authValue, HttpSession session) {
         int result = 0;
-        if(session.getAttribute("emailChk").equals(authToken)){
-                result =1;
+        if(session.getAttribute("emailChk").equals(authValue)){
+                result = 1;
             }
         return result;
     }
@@ -113,6 +112,15 @@ public class UserService {
 
     }
 
+    @Transactional
+    public void logout(HttpSession session, String email) {
+        session.invalidate();
+        User user = userRepository.findByEmail(email).orElseThrow(()->{
+            return new IllegalArgumentException("회원 없음");
+        });
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        user.setLogoutTime(timestamp);
+    }
 }
 
 

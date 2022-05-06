@@ -32,12 +32,17 @@ public class UserController {
     }
 
     @GetMapping("/email-auth")
-    public String emailConfirm(@RequestParam String authToken, HttpSession session){
-       int result = service.checkAuthCode(authToken,session);
+    public String emailConfirm(@RequestParam String authValue, HttpSession session){
+       int result = service.checkAuthCode(authValue,session);
         if(result == 1){
             return "success";
         }else {
             return "error";
         }
+    }
+    @GetMapping("/logout")
+    public String logout(HttpSession session,@RequestParam String email){
+        service.logout(session,email);
+        return "redirect:/main";
     }
 }
