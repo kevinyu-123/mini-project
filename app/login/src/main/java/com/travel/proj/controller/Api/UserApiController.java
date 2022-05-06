@@ -1,5 +1,6 @@
 package com.travel.proj.controller.Api;
 
+import com.travel.proj.config.sessionConfig.SessionConfig;
 import com.travel.proj.dto.ResponseDto;
 import com.travel.proj.model.User;
 import com.travel.proj.repository.UserRepository;
@@ -49,12 +50,17 @@ public class UserApiController {
     @Transactional
     @PostMapping("/login")
     public ResponseDto<Integer> login(@RequestBody User user, HttpSession session){
+        String userEmail = user.getEmail();
        User info =  service.login(user);
        if(info != null){
+           userEmail = SessionConfig.getSessionidCheck("userInfo", user.getEmail());
+
            session.setAttribute("userInfo",info);
+
            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
            info.setLoginTime(timestamp);
            userRepository.save(info);
+
            return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
        }else {
            return new ResponseDto<Integer>(HttpStatus.INTERNAL_SERVER_ERROR.value(), 0);

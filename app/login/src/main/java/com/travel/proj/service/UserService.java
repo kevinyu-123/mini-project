@@ -88,7 +88,7 @@ public class UserService {
         String str = "";
         int num;
         while (str.length() != 20) {
-            num = ran.nextInt(75) + 48;// 0~74 + 48 (숫자,소문자, 대문자)
+            num = ran.nextInt(75) + 48;
             if ((num >= 48 && num <= 57) || (num >= 65 && num <= 90) || (num >= 97 && num <= 122)) {
                 str += (char) num;
             } else {
