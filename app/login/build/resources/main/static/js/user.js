@@ -98,6 +98,7 @@ let user_func = {
             }else{
                 alert("로그인 실패");
                 console.log(response);
+                location.href="/main";
             }
         }). fail (function (error){
             location.href="/login";

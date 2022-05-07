@@ -4,7 +4,6 @@ import com.travel.proj.model.User;
 import com.travel.proj.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
@@ -14,7 +13,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-@Configuration
 @WebListener
 public class SessionConfig implements HttpSessionListener {
 
@@ -23,31 +21,32 @@ public class SessionConfig implements HttpSessionListener {
 
     private static final Map<String, HttpSession> sessions = new ConcurrentHashMap<>();
 
-    //해당 메소드는 로그인 하는 곳에서 호출하는 메소드 이다.
-    public synchronized static String loginSessionChecker(String compareId){
+    public synchronized static String getSessionidCheck(String sessionName, String compareEmail){
         String result = "";
         for( String key : sessions.keySet() ){
-            HttpSession value = sessions.get(key);
-            log.info((String) value.getAttribute("userInfo"));
-            if(value != null &&  value.getAttribute("userInfo") != null && value.getAttribute("userInfo").toString().equals(compareId) ){
-                result =  key.toString();
+            HttpSession hs = sessions.get(key);
+            User user = new User();
+            if(hs != null) {
+                user = (User) hs.getAttribute(sessionName);
+                if(user != null && user.getEmail().equals(compareEmail)) {
+                    result = key.toString();
+                }
             }
         }
         removeSessionForDoubleLogin(result);
         return result;
     }
-
-    private static boolean removeSessionForDoubleLogin(String userId){
-        if(userId != null && userId.length() > 0){
-            sessions.get(userId).invalidate();
-            sessions.remove(userId);
+    private static void removeSessionForDoubleLogin(String userEmail){
+        System.out.println("remove userEmail : " + userEmail);
+        if(userEmail != null && userEmail.length() > 0){
+            sessions.get(userEmail).invalidate();
+            sessions.remove(userEmail);
         }
-        return true;
     }
-
     public void sessionCreated(HttpSessionEvent se) {
         se.getSession().setMaxInactiveInterval(65);
         sessions.put(se.getSession().getId(),se.getSession());
+
     }
 
     public void sessionDestroyed(HttpSessionEvent se) {
