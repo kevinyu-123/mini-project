@@ -51,8 +51,14 @@ public class UserApiController {
     @PostMapping("/login")
     public ResponseDto<Integer> login(@RequestBody User user,HttpServletRequest request){
        User info =  service.login(user);
+
        if(info != null){
-          SessionConfig.getSessionidCheck("userInfo",info.getEmail());
+       String removed_email = SessionConfig.getSessionidCheck("userInfo",info.getEmail());
+            if(removed_email != null && !removed_email.isEmpty() ){
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                info.setLogoutTime(timestamp);
+                userRepository.save(info);
+            }
 
            HttpSession session = request.getSession();
            session.setAttribute("userInfo",info);

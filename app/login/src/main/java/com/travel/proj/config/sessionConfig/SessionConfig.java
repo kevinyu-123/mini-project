@@ -57,7 +57,6 @@ public class SessionConfig implements HttpSessionListener {
             sessions.get(se.getSession().getId()).invalidate();
             sessions.remove(se.getSession().getId());
 
-
         }
     }
 }
