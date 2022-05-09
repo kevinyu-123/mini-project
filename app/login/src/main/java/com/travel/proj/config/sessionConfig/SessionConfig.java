@@ -4,6 +4,7 @@ import com.travel.proj.model.User;
 import com.travel.proj.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
@@ -17,11 +18,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SessionConfig implements HttpSessionListener {
 
     @Autowired
-    private UserRepository repository;
+    private static UserRepository repository;
 
     private static final Map<String, HttpSession> sessions = new ConcurrentHashMap<>();
 
     public synchronized static String getSessionidCheck(String sessionName, String compareEmail){
+
         String result = "";
         for( String key : sessions.keySet() ){
             HttpSession hs = sessions.get(key);
@@ -36,8 +38,9 @@ public class SessionConfig implements HttpSessionListener {
         removeSessionForDoubleLogin(result);
         return result;
     }
-    private static void removeSessionForDoubleLogin(String userEmail){
-        System.out.println("remove userEmail : " + userEmail);
+
+    public static void removeSessionForDoubleLogin(String userEmail){
+        log.info("remove userEmail : " + userEmail);
         if(userEmail != null && userEmail.length() > 0){
             sessions.get(userEmail).invalidate();
             sessions.remove(userEmail);
@@ -53,6 +56,7 @@ public class SessionConfig implements HttpSessionListener {
         if(sessions.get(se.getSession().getId()) != null){
             sessions.get(se.getSession().getId()).invalidate();
             sessions.remove(se.getSession().getId());
+
 
         }
     }

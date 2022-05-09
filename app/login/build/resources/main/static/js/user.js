@@ -93,11 +93,9 @@ let user_func = {
         }). done(function (response){
             if(response.status == 200) {
                 alert("로그인 성공");
-                console.log(response);
                 location.href="/main";
             }else{
                 alert("로그인 실패");
-                console.log(response);
                 location.href="/main";
             }
         }). fail (function (error){

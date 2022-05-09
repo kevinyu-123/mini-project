@@ -46,10 +46,16 @@ subprojects {
         implementation 'javax.mail:javax.mail-api:1.6.2'
         implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
         implementation 'org.springframework.session:spring-session-core'
+      //  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.5'
 
     }
 
     tasks.named('test') {
         useJUnitPlatform()
+    }
+}
+project(':app:twit') {
+    dependencies {
+        implementation project(':app:login')
     }
 }

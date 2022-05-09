@@ -25,8 +25,11 @@ import java.util.Random;
 public class UserService {
 
     private final UserRepository userRepository;
+    
     @Autowired
     JavaMailSender mailSender;
+    
+
 
 
     public UserService(UserRepository userRepository){
